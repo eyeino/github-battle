@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 import PropTypes from 'prop-types';
 import api from '../utils/api';
 import Loading from './Loading';
@@ -8,16 +8,16 @@ function SelectLanguage (props) {
 	
 	return (
 		<ul className='languages'>
-				{languages.map(function(lang) {
-					return (
-						<li
-							style={lang === props.selectedLanguage ? { color: '#d0021b' } : null}
-							onClick={props.onSelect.bind(null, lang)}
-							key={lang}>
-							{lang}
-						</li>
-					)
-				})}
+			{languages.map(function(lang) {
+				return (
+					<li
+						style={lang === props.selectedLanguage ? { color: '#d0021b' } : null}
+						onClick={props.onSelect.bind(null, lang)}
+						key={lang}>
+						{lang}
+					</li>
+				)
+			})}
 			</ul>
 	)
 }
@@ -56,51 +56,35 @@ SelectLanguage.propTypes = {
 	onSelect: PropTypes.func.isRequired,
 }
 
-class Popular extends React.Component {
-	constructor (props) {
-		super(props);
-		this.state = {
-			selectedLanguage: 'All'
-		};
+function Popular() {
+	const [selectedLanguage, setSelectedLanguage] = useState('All');
+	const [repos, setRepos] = useState(null);
 
-		this.updateLanguage = this.updateLanguage.bind(this);
+	useEffect(() => {
+		updateLanguage(selectedLanguage);
+	}, [])
+
+	function updateLanguage(lang) {
+		setSelectedLanguage(lang);
+		setRepos(null);
+
+		api.fetchPopularRepos(selectedLanguage)
+			.then(fetchedRepos => {
+				setRepos(fetchedRepos);
+			});
 	}
 
-	componentDidMount () {
-		this.updateLanguage(this.state.selectedLanguage);
-	}
-
-	updateLanguage(lang) {
-		this.setState(function() {
-			return {
-				selectedLanguage: lang,
-				repos: null
-			}
-		});
-
-		api.fetchPopularRepos(this.state.selectedLanguage)
-			.then(function (repos) {
-				this.setState(function () {
-					return {
-						repos: repos
-					}
-				})
-			}.bind(this));
-	}
-
-	render() {
-		return (
-				<div>
-					<SelectLanguage 
-						selectedLanguage={this.state.selectedLanguage}
-						onSelect={this.updateLanguage}
-					/>
-          {!this.state.repos
-            ? <Loading />
-            : <RepoGrid repos={this.state.repos} />}
-				</div>
-		)
-	}
+	return (
+		<div>
+			<SelectLanguage 
+				selectedLanguage={selectedLanguage}
+				onSelect={updateLanguage}
+			/>
+			{!repos
+				? <Loading />
+				: <RepoGrid repos={repos} />}
+		</div>
+	)
 }
 
 export default Popular;
