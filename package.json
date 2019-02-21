@@ -10,7 +10,7 @@
     ]
   },
   "scripts": {
-    "start": "webpack-dev-server --open 'Firefox'",
+    "start": "webpack-dev-server --open 'Google Chrome'",
     "build": "NODE_ENV='production' webpack",
     "firebase-init": "firebase login && firebase init",
     "deploy": "npm run build && firebase deploy"

@@ -1,17 +1,12 @@
-var React = require('react');
-var Popular = require('./Popular');
-var ReactRouter = require('react-router-dom');
-var Router = ReactRouter.BrowserRouter;
-var Route = ReactRouter.Route;
-var Switch = ReactRouter.Switch;
-var Nav = require('./Nav');
-var Home = require('./Home');
-var Battle = require('./Battle');
-var Results = require('./Results');
+import React from 'react';
+import { BrowserRouter as Router, Route, Switch } from 'react-router-dom';
+import Nav from './Nav';
+import Home from './Home';
+import Battle from './Battle';
+import Results from './Results';
+import Popular from './Popular';
 
-
-class App extends React.Component {
-    render() {
+function App() {
       return (
         <Router>
           <div className='container'>
@@ -27,8 +22,7 @@ class App extends React.Component {
             </Switch>
           </div>
         </Router>
-      )
-    }
+      );
   }
 
-  module.exports = App;
+export default App;
