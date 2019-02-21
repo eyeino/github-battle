@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState } from 'react';
 import PropTypes from 'prop-types';
 import { Link } from 'react-router-dom';
 import PlayerPreview from './PlayerPreview';
@@ -51,9 +51,13 @@ function Battle(props) {
   const [playerOneImage, setPlayerOneImage] = useState(null);
   const [playerTwoImage, setPlayerTwoImage] = useState(null);
 
+  function githubImageUrlMaker(username) {
+    return 'https://github.com/' + username + '.png?size200';
+  }
+
   function handleSubmitOne(username) {
     setPlayerOneName(username);
-    setPlayerOneImage('https://github.com/' + username + '.png?size200');
+    setPlayerOneImage(githubImageUrlMaker(username));
   }
 
   function handleResetOne() {
@@ -63,7 +67,7 @@ function Battle(props) {
 
   function handleSubmitTwo(username) {
     setPlayerTwoName(username);
-    setPlayerTwoImage('https://github.com/' + username + '.png?size200');
+    setPlayerTwoImage(githubImageUrlMaker(username));
   }
 
   function handleResetTwo() {
@@ -120,6 +124,10 @@ function Battle(props) {
       }
     </div>
   )
+}
+
+Battle.propTypes = {
+  match: PropTypes.object.isRequired
 }
 
 export default Battle;
