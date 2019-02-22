@@ -4,7 +4,7 @@ import { Link } from 'react-router-dom';
 import PlayerPreview from './PlayerPreview';
 
 function PlayerInput(props) {
-  
+  const { label, onSubmit } = props;
   const [username, setUsername] = useState('');
 
   function handleChange(event) {
@@ -14,13 +14,13 @@ function PlayerInput(props) {
 
   function handleSubmit(event) {
     event.preventDefault();
-    props.onSubmit(username);
+    onSubmit(username);
   }
 
   return (
     <form className='column' onSubmit={handleSubmit}>
       <label className='header' htmlFor='username'>
-        {props.label}
+        {label}
       </label>
       <input
         id='username'

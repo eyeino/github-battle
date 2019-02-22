@@ -9,7 +9,6 @@ var styles = {
 }
 
 function Loading(props) {
-
   const [text, setText] = useState(props.text);
 
   useEffect(() => {
