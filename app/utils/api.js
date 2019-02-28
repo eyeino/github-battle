@@ -1,5 +1,5 @@
-var axios = require('axios');
-var apiKey = require('./api-key');
+import axios from 'axios';
+import apiKey from './api-key';
 
 var id = apiKey.id;
 var sec = apiKey.sec;
@@ -30,8 +30,8 @@ function calculateScore (profile, repos) {
 }
 
 function handleError (error) {
-  console.warn(error);
-  return null;
+  console.warn(error); // eslint-disable-line no-console
+  return null
 }
 
 function getUserData (player) {
@@ -58,7 +58,7 @@ function sortPlayers (players) {
   })
 }
 
-module.exports = {
+export default {
   battle: function (players) {
     return axios.all(players.map(getUserData))
       .then(sortPlayers)

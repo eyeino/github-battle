@@ -1,19 +1,24 @@
 import React from 'react';
 import PropTypes from 'prop-types';
+import { WinnerConsumer } from './WinnerContext';
 
-function PlayerPreview (props) {
+function PlayerPreview(props) {
   const { avatar, username, children } = props;
 
   return (
-    <div className='column'>
-    <img
-      className='avatar'
-      src={avatar}
-      alt={'Avatar for ' + username}
-    />
-    <h2 className='username'>@{username}</h2>
-    {children}
-    </div>
+      <WinnerConsumer>
+        {(animationClass) => (
+          <div className='column'>
+            <img
+              className={'avatar ' + animationClass}
+              src={avatar}
+              alt={'Avatar for ' + username}
+            />
+            <h2 className='username'>@{username}</h2>
+            {children}
+          </div>
+        )}
+      </WinnerConsumer>
   )
   }
   

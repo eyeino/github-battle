@@ -5,13 +5,16 @@ import { Link } from 'react-router-dom';
 import PropTypes from 'prop-types';
 import PlayerPreview from './PlayerPreview';
 import Loading from './Loading';
+import { WinnerProvider } from './WinnerContext';
 
 function Profile(props) {
   const { login, name, location, company, followers,
     following, public_repos, blog, avatar_url } = props.info;
 
   return (
-    <PlayerPreview avatar={avatar_url} username={login}>
+    <PlayerPreview
+      avatar={avatar_url}
+      username={login}>
       <ul className='space-list-items'>
         {name && <li>{name}</li>}
         {location && <li>{location}</li>}
@@ -26,7 +29,7 @@ function Profile(props) {
 }
 
 Profile.propTypes = {
-  info: PropTypes.object.isRequired
+  info: PropTypes.object.isRequired,
 }
 
 function Player(props) {
@@ -44,7 +47,7 @@ function Player(props) {
 Player.propTypes = {
   label: PropTypes.string.isRequired,
   score: PropTypes.number.isRequired,
-  profile: PropTypes.object.isRequired
+  profile: PropTypes.object.isRequired,
 }
 
 function Results(props) {
@@ -59,7 +62,7 @@ function Results(props) {
     api.battle([
       players.playerOneName,
       players.playerTwoName
-    ]).then(function (results) {
+    ]).then(results => {
       if (results === null) {
         setError('Looks like there was an error. Check that both users exist on Github.');
         setLoading(false);
@@ -88,16 +91,21 @@ function Results(props) {
 
   return (
     <div className='row'>
-      <Player
-        label='Winner'
-        score={winner.score}
-        profile={winner.profile}
-      />
-      <Player
-        label='Loser'
-        score={loser.score}
-        profile={loser.profile}
-      />
+      <WinnerProvider value={'winner-hop'}>
+        <Player
+          label='Winner'
+          score={winner.score}
+          profile={winner.profile}
+        />
+      </WinnerProvider>
+
+      <WinnerProvider value={'loser-spin'}>
+        <Player
+          label='Loser'
+          score={loser.score}
+          profile={loser.profile}
+        />
+      </WinnerProvider>
     </div>
   )
 }
